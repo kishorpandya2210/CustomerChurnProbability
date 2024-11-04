@@ -1,7 +1,7 @@
 import requests
 import json
 
-url = "http://0.0.0.0:10000/predict"
+url = "https://customerchurnprobability.onrender.com/predict"
 
 customer_data={
     "CreditScore": 700,
