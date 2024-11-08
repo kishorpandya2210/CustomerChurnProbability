@@ -3,13 +3,15 @@ import pandas as pd
 import pickle
 import numpy as np
 import os
+from dotenv import load_dotenv
 from openai import OpenAI
-import frontend.utils as ut
+import utils as ut
 
+load_dotenv()
 
 client = OpenAI(
   base_url = "https://api.groq.com/openai/v1",
-  api_key = os.environ.get("GROQ_API_KEY")
+  api_key = os.getenv("GROQ_API_KEY")
 )
 
 def load_model(filename):
@@ -17,24 +19,24 @@ def load_model(filename):
     return pickle.load(file)
 
 
-xgboost_model = load_model("xgb_model.pkl")
+xgboost_model = load_model("../models/xgb_model.pkl")
 
-naive_bayes_model = load_model("nb_model.pkl")
+naive_bayes_model = load_model("../models/nb_model.pkl")
 
-random_forest_model = load_model("rf_model.pkl")
+random_forest_model = load_model("../models/rf_model.pkl")
 
-decision_tree_model = load_model("dt_model.pkl")
+decision_tree_model = load_model("../models/dt_model.pkl")
 
-svm_model = load_model("svm_model.pkl")
+svm_model = load_model("../models/svm_model.pkl")
 
-knn_model = load_model("knn_model.pkl")
+knn_model = load_model("../models/knn_model.pkl")
 
-voting_classifier_model = load_model("voting_clf.pkl")
+voting_classifier_model = load_model("../models/voting_clf.pkl")
 
-xgboost_SMOTE_model = load_model("xg-boost-SMOTE.pkl")
+xgboost_SMOTE_model = load_model("../models/xg-boost-SMOTE.pkl")
 
 xgboost_featureEngineering_model = load_model(
-  "xgboost-featureEngineered.pkl")
+  "../models/xgboost-featureEngineered.pkl")
 
 
 def prepare_input(credit_score, location, gender, age, tenure, balance, num_products, has_credit_card, is_active_member, estimated_salary):
@@ -166,7 +168,7 @@ def explain_prediction(probability, input_dict, surname):
 st.title("Customer Churn Prediction")
 
 
-df = pd.read_csv("churn.csv")
+df = pd.read_csv("../data/churn.csv")
 
 customers = [f"{row['CustomerId']} - {row['Surname']}" for _, row in df.iterrows()]
 
