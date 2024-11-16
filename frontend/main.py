@@ -254,20 +254,24 @@ if selected_customer_option:
 
   input_df, input_dict = prepare_input(credit_score, location, gender, age, tenure, balance, num_products, has_credit_card, is_active_member, estimated_salary)
 
-  avg_probability = make_predictions(input_df, input_dict)
+  if st.button("Generate Churn Probability"):
 
-  explanation = explain_prediction(avg_probability, input_dict, selected_customer['Surname'])
+    avg_probability = make_predictions(input_df, input_dict)
+    explanation = explain_prediction(avg_probability, input_dict, selected_customer['Surname'])
+    email = generate_email(avg_probability, input_dict, explanation, selected_customer['Surname'])
 
-  st.markdown("---")
+    st.session_state["avg_probability"] = avg_probability
+    st.session_state["explanation"] = explanation
+    st.session_state["email"] = email
 
-  st.subheader("Explanation of Prediction")
+  if "avg_probability" in st.session_state:
+      if st.button("Generate Explanation and Email"):
+        st.markdown("---")
+        st.subheader("Explanation of Prediction")
 
-  st.markdown(explanation)
+        st.markdown(st.session_state["explanation"])
+    
+        st.markdown("---")
+        st.subheader("Potential Email to Customer")
 
-  email = generate_email(avg_probability, input_dict, explanation, selected_customer['Surname'])
-
-  st.markdown("---")
-
-  st.subheader("Potential email to Cutomer")
-
-  st.markdown(email)
+        st.markdown(st.session_state["email"])

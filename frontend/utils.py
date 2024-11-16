@@ -14,7 +14,7 @@ def create_gauge_chart(probability):
                  title= {'text': "Probability of Churn", 
                         'font': {
                           'size': 24,
-                          'color': 'black'
+                          'color': 'white'
                         },
                         
                         },
