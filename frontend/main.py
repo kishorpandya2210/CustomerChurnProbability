@@ -114,45 +114,46 @@ information, in bullet point format. Don't ever mention the probability of churn
 
 
 def explain_prediction(probability, input_dict, surname):
-  prompt = f"""You are an expert data scientist at a bank, where you specialize in interpreting and explaining predictions of machine learning models.
+  prompt = f"""You are a highly skilled data scientist at a bank, specializing in interpreting and communicating the predictions of machine learning models.
 
-  Your machine learning model has predicted that a customer names {surname} has a {round(probability*100,1)}% probability of churning, based on the information provided below.
+- The machine learning model has predicted that the customer **{{surname}}** has a **{{round(probability * 100, 1)}}%** probability of churning.  
+- Below is the customer's information:  
 
-  Here is the customer's information:
   {input_dict}
 
-  Here are the machine learning model's top 10 most important features for predicting churn:
-
-                Feature       | Importance
-          ---------------------------------------
-          NumOfProduct        | 0.323888
-          IsActiveMember      | 0.164146
-          Age                 | 0.109550
-          Geography_Germany   | 0.091373
-          Balance             | 0.052786
-          Geography_France    | 0.046463
-          Gender_Female       | 0.045283
-          Geography_Spain     | 0.036855
-          CreditScore         | 0.035005
-          EstimatedSalary     | 0.032655
-          HasCrCard           | 0.031940
-          Tenure              | 0.030054
-          Gender_Male         | 0.000000
+  ### Top 10 Most Important Features for Predicting Churn
+| **Feature**          | **Importance** |
+|-----------------------|----------------|
+| NumOfProduct         | 0.323888       |
+| IsActiveMember       | 0.164146       |
+| Age                  | 0.109550       |
+| Geography_Germany    | 0.091373       |
+| Balance              | 0.052786       |
+| Geography_France     | 0.046463       |
+| Gender_Female        | 0.045283       |
+| Geography_Spain      | 0.036855       |
+| CreditScore          | 0.035005       |
+| EstimatedSalary      | 0.032655       |
+| HasCrCard            | 0.031940       |
+| Tenure               | 0.030054       |
+| Gender_Male          | 0.000000       |
 
   {pd.set_option('display.max_columns', None)}
 
-  Here are summary statistics for churned customers:
+  - Below are the **summary statistics** for:  
+1. **Churned Customers**:  
   {df[df['Exited']==1].describe()}
 
-
+2. **Non-Churned Customers**:
   Here are summary statistics for non-churned customers:
   {df[df['Exited']==0].describe()}
+---
 
-
-  - If the customer has over a 40% risk of churning, generate a 3 sentence explaination of why they are at risk of churning.
-  - If the customer has less than 40% risk of churning, or the machine learning model, or say anthing like "Based on the machine learning model's prediction and top 10 most important features", just explain the prediction.
-
-  """
+### Instructions:  
+1. If the customer has a **risk of churning greater than 40%**, provide a **3-sentence explanation** highlighting the key reasons for their risk. Focus on the most impactful features.  
+2. If the customer has a **risk of churning less than 40%**, or if the explanation is general, provide a concise explanation of the prediction. Avoid generic statements like “Based on the machine learning model’s prediction and top features.”  
+3. Ensure your explanation is tailored to the customer’s specific data and aligns with the feature importances listed.  
+"""
      
   print("EXPLAINATION PROMPT:", prompt)
 
